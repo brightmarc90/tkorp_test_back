@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword   # Mot de passe root pour MySQL
+      MYSQL_DATABASE: tkorp_test_db          # Nom de la base de données par défaut
+      MYSQL_USER: tkorp                  # Utilisateur de la base de données
+      MYSQL_PASSWORD: tkorppassword          # Mot de passe pour l'utilisateur
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql         # Volume pour persister les données
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"                       # Adminer sera accessible via localhost:8080
+    depends_on:
+      - mysql                             # Adminer dépend de MySQL pour démarrer
+
+volumes:
+  mysql-data:
