@@ -9,6 +9,31 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+// modèles du projet
+
+model Person {
+  id Int @id @default(autoincrement())
+  lastname String @db.VarChar(64)
+  firstname String @db.VarChar(64)
+  email String @unique @db.VarChar(255)
+  phone_number String @db.Char(10)
+
+  animals Animal[]
+}
+
+model Animal {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(64)
+  date_of_birth DateTime
+  species String @db.VarChar(64)
+  breed String @db.VarChar(64)
+  color String @db.VarChar(64)
+  weight Float
+  owner_id Int 
+
+  owner Person @relation(fields: [owner_id], references: [id])
 }
