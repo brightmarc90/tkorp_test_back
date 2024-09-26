@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength } from "class-validator"
+import { IsEmail, IsOptional, IsString, MinLength } from "class-validator"
 
 export class PersonDto {
     @IsString()
@@ -13,4 +13,15 @@ export class PersonDto {
     @IsString()
     @MinLength(8)
     readonly phone_number: string
+}
+
+export class UpdatePersonDto {
+    @IsOptional()
+    @IsString()
+    @IsEmail()
+    readonly email?: string
+    @IsOptional()
+    @IsString()
+    @MinLength(8)
+    readonly phone_number?: string
 }

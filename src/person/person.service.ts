@@ -1,6 +1,6 @@
 import { PaginationDto } from './../dto/paginationDto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { PersonDto } from './dto/personDto';
+import { PersonDto, UpdatePersonDto } from './dto/personDto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { error } from 'console';
 
@@ -43,6 +43,23 @@ export class PersonService {
         const person = await this.prismaService.person.findUnique({where: {id} })
         if (!person) throw new NotFoundException("Cette personne n'existe pas dans la base")
         return person
+    }
+
+    async updatePerson(updatePersonDto: UpdatePersonDto, id: number) {
+        const {email} = updatePersonDto
+        let person = await this.prismaService.person.findUnique({where: {id}})
+        if (!person) throw new NotFoundException("Cette personne n'existe pas dans la base")
+        if (email){
+            person = await this.prismaService.person.findUnique({where: {email}})
+            if (person && id !== person.id) {
+                throw new ConflictException("Cet email est déjà utilisé")
+            }
+        }
+        const updated = await this.prismaService.person.update({
+            where: {id},
+            data: { ... updatePersonDto }
+        })
+        return updated
     }
 
     async deletePerson(id: number) {
