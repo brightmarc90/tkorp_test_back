@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, ParseIntPipe, Post, Req } from '@nestjs/common';
 import { PersonDto } from './dto/personDto';
 import { PersonService } from './person.service';
+import { Request } from 'express';
 
 @Controller('person')
 export class PersonController {
@@ -13,4 +14,8 @@ export class PersonController {
     // lecture
     // modification
     // suppression
+    @Delete(":id")
+    deletePerson(@Param('id', ParseIntPipe) id: number) {
+        return this.personService.deletePerson(id)
+    }
 }
