@@ -1,3 +1,4 @@
+import { PaginationDto } from './../dto/paginationDto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PersonDto } from './dto/personDto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -19,6 +20,29 @@ export class PersonService {
             data: {lastname, firstname, email, phone_number}
         })
         return {data: createdPerson}
+    }
+
+    async getAll(paginationDto: PaginationDto) {
+        const {skip, limit} = paginationDto
+        const numSkip = Number(skip)
+        const numLimit = Number(limit)
+        const totalCount = await this.prismaService.person.count()
+        const persons = await this.prismaService.person.findMany({
+            skip: skip === undefined ? 0 : numSkip,
+            take: limit === undefined? undefined : numLimit
+        })
+        return {
+            total: totalCount,
+            data: persons,
+            skip: skip === undefined ? 0 : numSkip,
+            limit: limit === undefined? -1 : numLimit
+        }
+    }
+
+    async getOne(id: number) {
+        const person = await this.prismaService.person.findUnique({where: {id} })
+        if (!person) throw new NotFoundException("Cette personne n'existe pas dans la base")
+        return person
     }
 
     async deletePerson(id: number) {
