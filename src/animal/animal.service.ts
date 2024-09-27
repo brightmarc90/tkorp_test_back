@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AnimalDto } from './dto/animalDto';
+import { AnimalDto, UpdateAnimalDto } from './dto/animalDto';
 import { PaginationDto } from 'src/dto/paginationDto';
 
 @Injectable()
-export class AnimalService {        
+export class AnimalService {         
     constructor(private readonly prismaService: PrismaService) {}
 
     async createAnimal(animalDto: AnimalDto) {
@@ -48,4 +48,21 @@ export class AnimalService {
         const deleted = await this.prismaService.animal.delete({where: {id}})
         return {data: deleted}
     }
+
+    async updateAnimal(updateAnimalDto: UpdateAnimalDto, id: number) {
+        const {owner_id} = updateAnimalDto
+        let animal = await this.prismaService.animal.findUnique({where: {id}})
+        if (!animal) throw new NotFoundException("Cet animal n'existe pas dans la base")
+        if (owner_id){
+            const person = await this.prismaService.person.findUnique({where: {id: owner_id}})
+            if (!person) {
+                throw new BadRequestException("Le maitre à associer à cet anaimal n'existe pas dans la base")
+            }
+        }
+        const updated = await this.prismaService.animal.update({
+            where: {id},
+            data: { ... updateAnimalDto }
+        })
+        return updated
+    }   
 }
