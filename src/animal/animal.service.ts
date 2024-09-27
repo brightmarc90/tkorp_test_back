@@ -4,7 +4,7 @@ import { AnimalDto } from './dto/animalDto';
 import { PaginationDto } from 'src/dto/paginationDto';
 
 @Injectable()
-export class AnimalService {    
+export class AnimalService {        
     constructor(private readonly prismaService: PrismaService) {}
 
     async createAnimal(animalDto: AnimalDto) {
@@ -40,5 +40,12 @@ export class AnimalService {
         const animal = await this.prismaService.animal.findUnique({where: {id} })
         if (!animal) throw new NotFoundException("Cet animal n'existe pas")
         return animal
+    }
+
+    async deleteAnimal(id: number) {
+        const animal = await this.prismaService.animal.findUnique({where: {id}})
+        if (!animal) throw new NotFoundException("Cet animal n'existe pas dans la base")
+        const deleted = await this.prismaService.animal.delete({where: {id}})
+        return {data: deleted}
     }
 }

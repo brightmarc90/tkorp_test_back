@@ -23,4 +23,8 @@ export class AnimalController {
         return this.animalService.getOne(id)
     }
     // suppression
+    @Get(":id")
+    deleteAnimal(@Param("id", ParseIntPipe) id: number) {
+        return this.animalService.deleteAnimal(id)
+    }
 }
