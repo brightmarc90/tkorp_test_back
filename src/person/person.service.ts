@@ -2,7 +2,6 @@ import { PaginationDto } from './../dto/paginationDto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PersonDto, UpdatePersonDto } from './dto/personDto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { error } from 'console';
 
 @Injectable()
 export class PersonService {
@@ -66,7 +65,7 @@ export class PersonService {
         const person = await this.prismaService.person.findUnique({where: {id}, include: { animals: true }})
         if (!person) throw new NotFoundException("Cette personne n'existe pas dans la base")
         if (person.animals.length > 0){
-            throw new BadRequestException("Cette personne ne peut être supprimée car elle a un ou plusieurs animaux enregistrés")
+            throw new BadRequestException("Cette personne ne peut être supprimée car elle est maitre d'un ou plusieurs animaux")
         }
         const deletedPerson = await this.prismaService.person.delete({where: {id}})
         return {data: deletedPerson}
