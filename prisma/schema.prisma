@@ -22,7 +22,7 @@ model Person {
   email String @unique @db.VarChar(255)
   phone_number String @db.Char(10)
 
-  animals Animal[]
+  animals Animal[] @relation("person_animals")
 }
 
 model Animal {
@@ -35,5 +35,5 @@ model Animal {
   weight Float
   owner_id Int 
 
-  owner Person @relation(fields: [owner_id], references: [id])
+  owner Person @relation("person_animals",fields: [owner_id], references: [id])
 }
