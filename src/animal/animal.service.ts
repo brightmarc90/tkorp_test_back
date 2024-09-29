@@ -26,7 +26,15 @@ export class AnimalService {
         const totalCount = await this.prismaService.animal.count()
         const animals = await this.prismaService.animal.findMany({
             skip: skip === undefined ? 0 : numSkip,
-            take: limit === undefined? undefined : numLimit
+            take: limit === undefined? undefined : numLimit,
+            include: {
+                owner: {
+                    select: {
+                        firstname: true,
+                        lastname: true
+                    }
+                }
+            }
         })
         return {
             total: totalCount,
@@ -37,7 +45,12 @@ export class AnimalService {
     }
 
     async getOne(id: number) {
-        const animal = await this.prismaService.animal.findUnique({where: {id} })
+        const animal = await this.prismaService.animal.findUnique({where: {id}, include: {owner: {
+            select: {
+                firstname: true,
+                lastname: true
+            }
+        }} })
         if (!animal) throw new NotFoundException("Cet animal n'existe pas")
         return animal
     }
