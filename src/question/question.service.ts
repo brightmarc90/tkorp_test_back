@@ -18,7 +18,7 @@ export class QuestionService {
                 date_of_birth: "asc"
             }
         })
-        return { data: oldest }
+        return oldest
     }
 
     async getMostCommonSpecies() {
