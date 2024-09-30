@@ -47,7 +47,7 @@ Dans le terminal de votre projet à la racine exécutez la commande suivante
 ```bash
 npx prisma migrate dev
 ```
-Dans Adminer, cliquer ensuite sur ``requête SQL`` dans la colonne de gauche et copier dans la zone de texte le contenu du fichier [data-SQL.txt]() puis cliquer sur ``Exécuter``. Toute les données seront importées.
+Dans Adminer, cliquer ensuite sur ``requête SQL`` dans la colonne de gauche et copier dans la zone de texte le contenu du fichier [data-SQL.txt](https://github.com/brightmarc90/tkorp_test_back/blob/main/data-SQL.txt) puis cliquer sur ``Exécuter``. Toute les données seront importées.
 ## Lancer l'application
 - ``npm run start:dev`` : démarre l'application en mode développement généralement sur l'adresse http://localhost:3000
 ## Endpoints de l'API
