@@ -1,7 +1,8 @@
 import { Type } from "class-transformer"
 import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, Min, MinLength } from "class-validator"
 
-export class AnimalDto { // mettre les messages d'erreur de validation
+// dto de création d'animal
+export class AnimalDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(2)
@@ -29,7 +30,8 @@ export class AnimalDto { // mettre les messages d'erreur de validation
     readonly owner_id: number
 }
 
-export class UpdateAnimalDto { // mettre les messages d'erreur de validation
+// dto de modification d'animal
+export class UpdateAnimalDto {
     @IsOptional()
     @IsNotEmpty()
     @IsString()
