@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req } from '@nestjs/common';
-import { PersonDto, UpdatePersonDto } from './dto/personDto';
+import { PersonDto, UpdatePersonDto } from './dto/personDto.dto';
 import { PersonService } from './person.service';
-import { PaginationDto } from 'src/dto/paginationDto';
+import { PaginationDto } from 'src/dto/paginationDto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Person")
 @Controller('person')
 export class PersonController {
     constructor(private readonly personService: PersonService) {}

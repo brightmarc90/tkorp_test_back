@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { AnimalService } from './animal.service';
-import { AnimalDto, UpdateAnimalDto } from './dto/animalDto';
-import { PaginationDto } from 'src/dto/paginationDto';
+import { AnimalDto, UpdateAnimalDto } from './dto/animalDto.dto';
+import { PaginationDto } from 'src/dto/paginationDto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Animals")
 @Controller('animal')
 export class AnimalController {
     constructor(private readonly animalService: AnimalService) {}
@@ -27,7 +29,7 @@ export class AnimalController {
         return this.animalService.getOne(id)
     }
     // suppression
-    @Get(":id")
+    @Delete(":id")
     deleteAnimal(@Param("id", ParseIntPipe) id: number) {
         return this.animalService.deleteAnimal(id)
     }

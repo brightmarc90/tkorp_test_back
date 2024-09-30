@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AnimalDto, UpdateAnimalDto } from './dto/animalDto';
-import { PaginationDto } from 'src/dto/paginationDto';
+import { AnimalDto, UpdateAnimalDto } from './dto/animalDto.dto';
+import { PaginationDto } from 'src/dto/paginationDto.dto';
 
 @Injectable()
 export class AnimalService {         

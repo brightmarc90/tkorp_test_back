@@ -1,6 +1,6 @@
-import { PaginationDto } from './../dto/paginationDto';
+import { PaginationDto } from '../dto/paginationDto.dto';
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { PersonDto, UpdatePersonDto } from './dto/personDto';
+import { PersonDto, UpdatePersonDto } from './dto/personDto.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
