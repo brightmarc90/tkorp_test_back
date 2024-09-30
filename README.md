@@ -56,3 +56,60 @@ Pour avoir toute la documentation sur cet API et les tester rendez-vous sur http
 - [NextJS](https://nextjs.org/docs)
 - [TypeScript](https://www.typescriptlang.org/docs/)
 - [Prisma](https://www.prisma.io): ORM
+
+## Requêtes SQL des questions
+### Question 1: l'animal le plus vieux
+
+```sql
+SELECT name, species, breed, date_of_birth FROM Animal
+ORDER BY date_of_birth ASC
+LIMIT 1
+```
+
+### Question 2: l'espèce la mieux représentée
+
+```sql
+SELECT species, COUNT(id) as total FROM Animal
+GROUP BY species
+ORDER BY total DESC
+LIMIT 1
+```
+
+### Question 3: la personne qui possède le plus d’animaux
+
+```sql
+SELECT P.firstname, P.lastname, count(A.id) as Total FROM Person as P 
+JOIN Animal as A ON P.id = A.owner_id
+GROUP BY P.id
+ORDER BY Total DESC
+LIMIT 1
+```
+
+### Question 4: la personne qui possède le plus de chat
+
+```sql
+SELECT P.firstname, P.lastname, count(A.id) as Total FROM Person as P 
+JOIN Animal as A ON P.id = A.owner_id
+WHERE A.species = "Cat"
+GROUP BY P.id
+ORDER BY Total DESC
+LIMIT 1
+```
+
+### Question 5: la personne qui possède l'animal le plus lourd et son poids
+
+```sql
+SELECT P.firstname, P.lastname, A.name, A.species, A.weight FROM Person as P 
+JOIN Animal as A ON P.id = A.owner_id
+ORDER BY A.weight DESC
+LIMIT 1
+```
+
+### Question 6: la personne qui possède le groupe d'animaux le plus lourd
+```sql
+SELECT P.firstname, P.lastname, SUM(A.weight) as "Poids total" FROM Person as P 
+JOIN Animal as A ON P.id = A.owner_id
+GROUP BY P.id
+ORDER BY SUM(A.weight) DESC
+LIMIT 1
+```
